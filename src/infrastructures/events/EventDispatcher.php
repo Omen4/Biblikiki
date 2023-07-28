@@ -11,7 +11,7 @@ class EventDispatcher
         $this->listeners[$eventType][] = $listener;
     }
 
-    public function dispatch(AbstractDomainEvent $event): void
+    public function dispatch(DomainEvent $event): void
     {
         $eventType = get_class($event);
         if (isset($this->listeners[$eventType])) {

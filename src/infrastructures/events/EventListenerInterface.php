@@ -4,5 +4,5 @@ namespace infrastructures\events;
 
 interface EventListenerInterface
 {
-    public function handle(AbstractDomainEvent $event);
+    public function handle(DomainEvent $event);
 }

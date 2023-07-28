@@ -3,13 +3,27 @@
 namespace infrastructures\events;
 
 
+use infrastructures\persistences\LivreRepository;
+use infrastructures\persistences\MembreRepository;
+
 class LivreEmprunteEventListener implements EventListenerInterface
 {
+    private LivreRepository $livreRepository;
+    private MembreRepository $membreRepository;
+
+    public function __construct(LivreRepository $livreRepository, MembreRepository $membreRepository)
+    {
+        $this->livreRepository = $livreRepository;
+        $this->membreRepository = $membreRepository;
+    }
     public function handle($event): void
     {
         if ($event instanceof LivreEmprunteEvent) {
-            // Ici, vous pouvez réagir à l'événement LivreEmprunteEvent, par exemple enregistrer un log, envoyer un email, etc.
-            echo "Livre emprunté : Livre ID - " . $event->getLivreId() . ", Membre ID - " . $event->getMembreId() . ", Date d'emprunt - " . $event->getDateEmprunt()->format('Y-m-d') . "\n";
+            $livreId = $event->getLivreId();
+            $membreId = $event->getMembreId();
+            $dateEmprunt = $event->getDateEmprunt();
         }
+
+        //Dans un futur alternatif kiki recevra des mails grâce au code qui manque ici.
     }
 }

@@ -4,18 +4,18 @@ namespace infrastructures\events;
 
 use DateTimeImmutable;
 
-class LivreEmprunteEvent extends DomainEvent
+class LivreRetourneEvent extends DomainEvent
 {
     private int $livreId;
     private int $membreId;
-    private DateTimeImmutable $dateEmprunt;
+    private DateTimeImmutable $dateRetour;
 
-    public function __construct(int $livreId, int $membreId, DateTimeImmutable $dateEmprunt)
+    public function __construct(int $livreId, int $membreId, DateTimeImmutable $dateRetour)
     {
         parent::__construct();
         $this->livreId = $livreId;
         $this->membreId = $membreId;
-        $this->dateEmprunt = $dateEmprunt;
+        $this->dateRetour = $dateRetour;
     }
 
     public function getLivreId(): int
@@ -28,8 +28,8 @@ class LivreEmprunteEvent extends DomainEvent
         return $this->membreId;
     }
 
-    public function getDateEmprunt(): DateTimeImmutable
+    public function getDateRetour(): DateTimeImmutable
     {
-        return $this->dateEmprunt;
+        return $this->dateRetour;
     }
 }

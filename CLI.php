@@ -3,12 +3,12 @@
 require __DIR__.'/vendor/autoload.php';
 
 
-use applications\services\EmpruntApplicationService;
-use domain\services\EmpruntService;
 use infrastructures\events\EventDispatcher;
 use infrastructures\events\EventType;
 use infrastructures\events\LivreEmprunteEventListener;
-use infrasturctures\persistences\EmpruntRepository;
+use infrastructures\persistences\EmpruntRepository;
+use services\EmpruntApplicationService;
+use services\EmpruntService;
 
 $empruntRepository = new EmpruntRepository(__DIR__.'/emprunts.txt'); //Ajout de la persistence dans un fichier txt du bled
 $eventDispatcher = new EventDispatcher();
