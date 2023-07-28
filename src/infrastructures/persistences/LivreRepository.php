@@ -7,7 +7,8 @@ use domain\models\valueObjects\LivreId;
 
 interface LivreRepository
 {
+    public function nextIdentity(): int;
+    public function save(Livre $livre): void;
     public function findById(LivreId $livreId): ?Livre;
     public function findAll(): array;
-    public function isLivreDisponible(int $livreId): bool;
 }

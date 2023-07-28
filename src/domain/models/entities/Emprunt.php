@@ -5,39 +5,41 @@ namespace domain\models\entities;
 
 use DateTimeImmutable;
 use domain\models\valueObjects\DateEmprunt;
+use domain\models\valueObjects\LivreId;
+use domain\models\valueObjects\MembreId;
 
 class Emprunt
 {
-    private int $empruntId;
-    private Livre $livre;
-    private Membre $membre;
-    private DateEmprunt $dateEmprunt;
+    private LivreId $livreId;
+    private MembreId $membreId;
+    private \DateTimeImmutable $dateEmprunt;
+    private \DateTimeImmutable $dateRetour;
 
-    public function __construct(int $empruntId, Livre $livre, Membre $membre, DateEmprunt $dateEmprunt)
+    public function __construct(LivreId $livreId, MembreId $membreId, \DateTimeImmutable $dateEmprunt, \DateTimeImmutable $dateRetour)
     {
-        $this->empruntId = $empruntId;
-        $this->livre = $livre;
-        $this->membre = $membre;
+        $this->livreId = $livreId;
+        $this->membreId = $membreId;
         $this->dateEmprunt = $dateEmprunt;
+        $this->dateRetour = $dateRetour;
     }
 
-    public function getEmpruntId(): int
+    public function getLivreId(): LivreId
     {
-        return $this->empruntId;
+        return $this->livreId;
     }
 
-    public function getLivre(): Livre
+    public function getMembreId(): MembreId
     {
-        return $this->livre;
+        return $this->membreId;
     }
 
-    public function getMembre(): Membre
-    {
-        return $this->membre;
-    }
-
-    public function getDateEmprunt(): DateEmprunt
+    public function getDateEmprunt(): \DateTimeImmutable
     {
         return $this->dateEmprunt;
+    }
+
+    public function getDateRetour(): \DateTimeImmutable
+    {
+        return $this->dateRetour;
     }
 }

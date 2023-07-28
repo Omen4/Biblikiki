@@ -2,10 +2,12 @@
 
 namespace services;
 
+use DateTimeImmutable;
 use domain\models\entities\Emprunt;
 use domain\models\valueObjects\DateEmprunt;
 use domain\models\valueObjects\LivreId;
 use domain\models\valueObjects\MembreId;
+use Exception;
 use infrastructures\events\LivreEmprunteEvent;
 use infrastructures\persistences\EmpruntRepository;
 use infrastructures\persistences\LivreRepository;
@@ -24,23 +26,23 @@ class EmpruntService
         $this->membreRepository = $membreRepository;
     }
 
-    public function emprunterLivre(int $membreId, int $livreId, \DateTimeImmutable $dateEmprunt): void
+    public function emprunterLivre(int $membreId, int $livreId, DateTimeImmutable $dateEmprunt): void
     {
         // Vérifier si le membre existe dans le système
         $membre = $this->membreRepository->findById(new MembreId($membreId));
         if ($membre === null) {
-            throw new \Exception("Le membre avec l'ID $membreId n'existe pas.");
+            throw new Exception("Le membre avec l'ID $membreId n'existe pas.");
         }
 
         // Vérifier si le livre existe dans le système
         $livre = $this->livreRepository->findById(new LivreId($livreId));
         if ($livre === null) {
-            throw new \Exception("Le livre avec l'ID $livreId n'existe pas.");
+            throw new Exception("Le livre avec l'ID $livreId n'existe pas.");
         }
 
         // Vérifier si le livre est disponible pour l'emprunt
         if (!$this->livreRepository->isLivreDisponible($livreId)) {
-            throw new \Exception("Le livre avec l'ID $livreId n'est pas disponible pour l'emprunt.");
+            throw new Exception("Le livre avec l'ID $livreId n'est pas disponible pour l'emprunt.");
         }
 
         // Créer un nouvel emprunt
@@ -55,18 +57,18 @@ class EmpruntService
         $this->eventDispatcher->dispatch(new LivreEmprunteEvent($livreId->getId(), $membreId->getId(), $dateEmprunt));
     }
 
-    public function rendreLivre(int $livreId, \DateTimeImmutable $dateRetour): void
+    public function rendreLivre(int $livreId, DateTimeImmutable $dateRetour): void
     {
         // Vérifier si le livre existe dans le système
         $livre = $this->livreRepository->findById(new LivreId($livreId));
         if ($livre === null) {
-            throw new \Exception("Le livre avec l'ID $livreId n'existe pas.");
+            throw new Exception("Le livre avec l'ID $livreId n'existe pas.");
         }
 
         // Vérifier si le livre est actuellement emprunté
         $emprunt = $this->empruntRepository->findEmpruntByLivreId($livreId);
         if ($emprunt === null) {
-            throw new \Exception("Le livre avec l'ID $livreId n'est pas actuellement emprunté.");
+            throw new Exception("Le livre avec l'ID $livreId n'est pas actuellement emprunté.");
         }
 
         // Mettre à jour la date de retour de l'emprunt
