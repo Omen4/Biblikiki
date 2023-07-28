@@ -1,7 +1,9 @@
 <?php
 
-namespace services;
+namespace domain\services;
 
+use DateInterval;
+use DateTimeImmutable;
 use domain\models\entities\Emprunt;
 use domain\models\valueObjects\LivreId;
 use domain\models\valueObjects\MembreId;
@@ -29,16 +31,16 @@ class EmpruntApplicationService
         $livre = $this->livreRepository->findById($livreId);
 
         if ($livre === null) {
-            throw new \Exception("Le livre n'existe pas.");
+            throw new Exception("Le livre n'existe pas.");
         }
 
         if (!$livre->isDisponible()) {
-            throw new \Exception("Le livre est déjà emprunté.");
+            throw new Exception("Le livre est déjà emprunté.");
         }
 
         // Créer un nouvel emprunt avec les informations de membre et de date d'emprunt
-        $dateEmprunt = new \DateTimeImmutable();
-        $dateRetour = $dateEmprunt->add(new \DateInterval('P14D'));
+        $dateEmprunt = new DateTimeImmutable();
+        $dateRetour = $dateEmprunt->add(new DateInterval('P14D'));
         $emprunt = new Emprunt($livreId, $membreId, $dateEmprunt, $dateRetour);
         $this->empruntRepository->save($emprunt);
 
@@ -61,11 +63,11 @@ class EmpruntApplicationService
         $livre = $this->livreRepository->findById($livreId);
 
         if ($livre === null) {
-            throw new \Exception("Le livre n'existe pas.");
+            throw new Exception("Le livre n'existe pas.");
         }
 
         if ($livre->isDisponible()) {
-            throw new \Exception("Le livre n'est pas actuellement emprunté.");
+            throw new Exception("Le livre n'est pas actuellement emprunté.");
         }
 
         // Mettre à jour la disponibilité du livre

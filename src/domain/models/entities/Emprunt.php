@@ -12,10 +12,10 @@ class Emprunt
 {
     private LivreId $livreId;
     private MembreId $membreId;
-    private \DateTimeImmutable $dateEmprunt;
-    private \DateTimeImmutable $dateRetour;
+    private DateTimeImmutable $dateEmprunt;
+    private DateTimeImmutable $dateRetour;
 
-    public function __construct(LivreId $livreId, MembreId $membreId, \DateTimeImmutable $dateEmprunt, \DateTimeImmutable $dateRetour)
+    public function __construct(LivreId $livreId, MembreId $membreId, DateTimeImmutable $dateEmprunt, DateTimeImmutable $dateRetour)
     {
         $this->livreId = $livreId;
         $this->membreId = $membreId;
@@ -33,12 +33,12 @@ class Emprunt
         return $this->membreId;
     }
 
-    public function getDateEmprunt(): \DateTimeImmutable
+    public function getDateEmprunt(): DateTimeImmutable
     {
         return $this->dateEmprunt;
     }
 
-    public function getDateRetour(): \DateTimeImmutable
+    public function getDateRetour(): DateTimeImmutable
     {
         return $this->dateRetour;
     }

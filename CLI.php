@@ -1,10 +1,17 @@
 <?php
 
+use domain\models\valueObjects\LivreId;
+use domain\models\valueObjects\MembreId;
+use domain\services\EmpruntApplicationService;
+use domain\services\LivreApplicationService;
+use domain\services\MembreApplicationService;
+use infrastructures\events\EventDispatcher;
 use infrastructures\persistences\FileEmpruntRepository;
 use infrastructures\persistences\FileLivreRepository;
 use infrastructures\persistences\FileMembreRepository;
 
 require_once 'vendor/autoload.php';
+
 
 
 // Fichiers de persistance (ici en CSV)
@@ -20,7 +27,8 @@ $empruntRepository = new FileEmpruntRepository($empruntsFile);
 // Services d'application
 $livreApplicationService = new LivreApplicationService($livreRepository);
 $membreApplicationService = new MembreApplicationService($membreRepository);
-$empruntApplicationService = new EmpruntApplicationService($empruntRepository, $eventDispatcher);
+$eventDispatcher = new EventDispatcher();
+$empruntApplicationService = new EmpruntApplicationService($empruntRepository, $livreRepository, $eventDispatcher);
 
 // Code CLI pour interagir avec l'application
 echo "Bienvenue dans la bibliothèque ! Que souhaitez-vous faire ?\n";
@@ -31,7 +39,7 @@ echo "4. Emprunter un livre\n";
 echo "5. Retourner un livre\n";
 echo "Choisissez une option (1-5) : ";
 
-$choice = (int) readline();
+$choice = readline();
 
 switch ($choice) {
     case 1:
@@ -60,20 +68,26 @@ switch ($choice) {
     case 4:
         // Emprunter un livre
         echo "Veuillez saisir l'ID du livre à emprunter : ";
-        $livreId = new LivreId((int) readline());
+        $livreId = new LivreId(readline());
 
         echo "Veuillez saisir l'ID du membre emprunteur : ";
-        $membreId = new MembreId((int) readline());
+        $membreId = new MembreId(readline());
 
-        $empruntApplicationService->emprunterLivre($livreId, $membreId);
+        try {
+            $empruntApplicationService->emprunterLivre($livreId, $membreId);
+        } catch (Exception $e) {
+        }
         echo "Le livre a été emprunté avec succès !\n";
         break;
     case 5:
         // Retourner un livre
         echo "Veuillez saisir l'ID du livre à retourner : ";
-        $livreId = new LivreId((int) readline());
+        $livreId = new LivreId(readline());
 
-        $empruntApplicationService->retournerLivre($livreId);
+        try {
+            $empruntApplicationService->retournerLivre($livreId);
+        } catch (Exception $e) {
+        }
         echo "Le livre a été retourné avec succès !\n";
         break;
     default:

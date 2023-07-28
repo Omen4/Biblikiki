@@ -1,6 +1,6 @@
 <?php
 
-namespace services;
+namespace domain\services;;
 
 use DateTimeImmutable;
 use domain\models\entities\Emprunt;

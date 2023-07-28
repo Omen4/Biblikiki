@@ -1,6 +1,6 @@
 <?php
 
-namespace services;
+namespace domain\services;
 
 use domain\models\entities\Livre;
 use domain\models\valueObjects\LivreId;
